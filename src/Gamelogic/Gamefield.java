@@ -13,8 +13,13 @@ public class Gamefield {
         gamefieldArray = new GameObject[9][20];
     }
 
-    protected Team checkGoal(Team team){
-        return team;
+    protected boolean checkGoal(Ball ball) {
+        if (ball.posHorizontal == 0 && ball.posVertical > 2 && ball.posVertical < 6 ){
+            right.addScore();
+            return true;
+        }
+
+        return false;
     }
 
     public boolean addGameObject (GameObject object,int vertical, int horizontal){

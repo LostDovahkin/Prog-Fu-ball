@@ -9,7 +9,6 @@ public abstract class Player implements GameObject {
     private int speed;
     private double precision;
     private int energy;
-    private static int playerCount;
     private char symbol;
     int posHorizontal;
     int posVertical;
@@ -32,11 +31,29 @@ public abstract class Player implements GameObject {
 
     @Override
     public String toString() {
-        return ""+symbol;
+        return ""+id;
     }
 
-    public void movePlayer(int x, int y){
+    public void movePlayer(int horizontal, int vertical){
 
+    }
+
+    public void rechargeEnergy(){
+        if(energy + 50 <= 100 ){
+            energy += 50;
+        }
+        else {
+            energy = 100;
+        }
+    }
+
+    public boolean hasEnoughEnergy(int energyRequired){
+        if(energy - energyRequired >= 0){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public void setHasBall(boolean hasBall) {
