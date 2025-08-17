@@ -27,14 +27,25 @@ Die Software zur Simulation bietet verschiedene Funktionen. Zunächst werden Man
 2.3	Teamübersicht: Wer war für welche Teile der Programmierung, Dokumentation und Präsentation verantwortlich? 
 
 Aufbau des Programmes: Sascha, Karsten, Abdullah, Karim, Lisa
+
 Spielfeld []
+
 Roboter: ihre Eigenschaften und Rollen deklarieren und initialisieren + Roboter in ihre initia-le Position bringen [Abdullah]
+
 Spielzüge deklarieren [Abdullah] 
-Spielstart angeben, dass die Roboter in ihre Startposition gehen können; Spielstart durch die Eingabe für alle Roboter (Roboter anzeigen mit Rollen, Positionen und Eigenschaften, sodass der Eingeber entscheiden kann und sinnvoll eingeben kann) => Beachte das die Eingabe nach bestimmten Kriterien erfolgt Bsp.: Es wird gezielt gefragt, was welcher Roboter machen soll [Lisa]
+
+Spielstart angeben, dass die Roboter in ihre Startposition gehen können; Spielstart durch die Eingabe für alle Roboter (Roboter anzeigen mit Rollen, Positionen und Eigenschaften, sodass der Eingeber entscheiden kann und sinnvoll eingeben kann) => Beachte das die Eingabe nach bestimmten 
+
+Kriterien erfolgt Bsp.: Es wird gezielt gefragt, was welcher Roboter machen soll [Lisa]
+
 Timer 2x 2:30 Minuten/ Runden [Sascha, Karim]
+
 Nach jedem Spielzug auf Tor, Ballbesitz und Energielevel überprüfen (zeigen durch eine Aus-gabe) [Karsten]
+
 Spielstand anzeigen [Karsten]
+
 Zufallsfaktor einbauen für Fehlpässe und Torschüsse [Abdullah] 
+
 Ende des Spiels angeben (hier kann im Anschluss die Startposition von jedem Roboter wieder eingenommen werden) [Lisa]
 
 3	Teamorganisation
