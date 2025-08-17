@@ -51,6 +51,9 @@ Ende des Spiels angeben (hier kann im Anschluss die Startposition von jedem Robo
 3	Teamorganisation
 
 Zur Organisation des Codes wird GitHub verwendet. Innerhalb von GitHub wird der Reiter Projects zur Planung und Organisation von aufgaben verwendet. Hier ist ersichtlich, was die momentanen „Todo“ Aufgaben sind, welche Aufgaben in „Progress“ sind und welche Aufga-ben „Done“ sind. 
+
 Zur Ausarbeitung der Schriftlichen Ausarbeitung wird das Textverarbeitungsprogramm Word benutzt
+
 Mithilfe der Webseite sharepoint.com stellt Lisa in den Team Meetings kleine Präsentationen mit der Agenda für den Tag dar. Es wird kurz über die momentanen Aufgaben Verteilung geredet und weitere Fragen geklärt.
+
 Kommunikation und Planung für die Meetings erfolgt über den Messenger WhatsApp. Dort wird über eine Umfrage ein möglicher neuer Termin für das nächste Meetings abgestimmt.
