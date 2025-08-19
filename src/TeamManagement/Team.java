@@ -21,7 +21,7 @@ public class Team {
 
     public Team(boolean leftSide) {
         this.leftSide = leftSide;
-        Player = new ArrayList<>();
+        ArrayList<Player>players = new ArrayList<>();
         
         if (leftSide) {
         	players.add(new Goalkeeper(PlayerNumber, new Position (0,4)));

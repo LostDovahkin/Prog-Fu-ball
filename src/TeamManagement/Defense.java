@@ -1,12 +1,13 @@
 package src.TeamManagement;
 
+import src.Gamelogic.Gamefield;
 import src.Gamelogic.Position;
 
-public class Defense extends Player{
+public class Defense extends Player {
 
-    private final char Symbol= 'D';
+    private final char Symbol = 'D';
 
     public Defense(int id, Position startPos) {
-        super(id, 3, 0.8, 100,'D', startPos);
+        super(id, 3, 0.8, 100, 'D', startPos);
     }
 }

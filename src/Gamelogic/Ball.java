@@ -4,8 +4,7 @@ import src.TeamManagement.Player;
 
 public class Ball implements GameObject{
 
-    int posHorizontal;
-    int posVertical;
+    Position position;
 
     private Player holder;
 
@@ -13,24 +12,17 @@ public class Ball implements GameObject{
 
 
     @Override
-    public int getPosHorizontal() {
-        return posHorizontal;
+    public Position getPosition() {
+        return position;
     }
 
-    @Override
-    public void setPosHorizontal(int posHorizontal) {
-        this.posHorizontal = posHorizontal;
-    }
 
     @Override
-    public int getPosVertical() {
-        return posVertical;
+    public void setPosition(int x, int y) {
+        position.setX(x);
+        position.setY(y);
     }
 
-    @Override
-    public void setPosVertical(int posVertical) {
-        this.posVertical = posVertical;
-    }
 
     /**
      * @param holder
@@ -38,6 +30,6 @@ public class Ball implements GameObject{
      */
     public void setHolder(Player holder){
         this.holder = holder;
-        holder.setHasBall(true);
+        holder.setHasBall(this);
     }
 }

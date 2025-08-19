@@ -2,6 +2,7 @@ package src.TeamManagement;
 
 import src.Gamelogic.Ball;
 import src.Gamelogic.GameObject;
+import src.Gamelogic.Gamefield;
 import src.Gamelogic.Position;
 
 public abstract class Player implements GameObject {
@@ -11,75 +12,74 @@ public abstract class Player implements GameObject {
     private double precision;
     private int energy;
     private char symbol;
-    int posHorizontal;
-    int posVertical;
-    private boolean hasBall;
-	private Position startPos;
+    private Ball ballObj;
+    private Position position;
 
 
-    public Player(int id, int speed, double precision, int energy,char symbol, Position startPos) {
+    public Player(int id, int speed, double precision, int energy, char symbol, Position startPos) {
         this.id = id;
         this.speed = speed;
         this.precision = precision;
         this.energy = energy;
         this.symbol = symbol;
-        this.startPos = startPos; 
+        this.position = startPos;
         Team.PlayerNumber++;
 
 
     }
-    public boolean shoot(int horizontal, int vertical){
+
+    public boolean shoot(int horizontal, int vertical, Gamefield gamefield) {
+        if (energy < 24) {
+            if (gamefield.moveObject(ballObj, horizontal, vertical)) {
+                energy -= 25;
+                return true;
+            }
+            return false;
+        }
+        System.out.println("Nicht genügend Energie");
         return false;
     }
 
     @Override
     public String toString() {
-        return ""+id;
+        return "" + id;
     }
 
-    public void movePlayer(int horizontal, int vertical){
-
-    }
-
-    public void rechargeEnergy(){
-        if(energy + 50 <= 100 ){
-            energy += 50;
+    public boolean movePlayer(int horizontal, int vertical, Gamefield gamefield) {
+        if (energy >= speed){
+            if (gamefield.moveObject(this, horizontal, vertical)) {
+                energy -= speed;
+                return true;
+            }
+            System.out.println("Ungültige Position");
+            return false;
         }
-        else {
+        System.out.println("Zu wenig Energie");
+        return false;
+    }
+
+    public void rechargeEnergy() {
+        if (energy + 50 <= 100) {
+            energy += 50;
+        } else {
             energy = 100;
         }
     }
 
-    public boolean hasEnoughEnergy(int energyRequired){
-        if(energy - energyRequired >= 0){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    public void setHasBall(boolean hasBall) {
-        this.hasBall = hasBall;
+    public void setHasBall(Ball BallObj) {
+        this.ballObj = BallObj;
     }
 
     @Override
-    public int getPosHorizontal() {
-        return posHorizontal;
+    public Position getPosition() {
+        return position;
     }
 
-    @Override
-    public void setPosHorizontal(int posHorizontal) {
-        this.posHorizontal = posHorizontal;
-    }
 
     @Override
-    public int getPosVertical() {
-        return posVertical;
+    public void setPosition(int x, int y) {
+        position.setX(x);
+        position.setY(y);
     }
 
-    @Override
-    public void setPosVertical(int posVertical) {
-        this.posVertical = posVertical;
-    }
 }

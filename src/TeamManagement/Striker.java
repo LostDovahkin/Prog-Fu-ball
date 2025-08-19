@@ -1,5 +1,6 @@
 package src.TeamManagement;
 
+import src.Gamelogic.Gamefield;
 import src.Gamelogic.Position;
 
 public class Striker extends Player{

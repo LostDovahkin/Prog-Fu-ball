@@ -40,7 +40,7 @@ public class ConsoleHandler {
     	for (Player p : team.getPlayers()) {
     		if (p == null) continue;
     		Position current = p.getPosition(); 
-    		Position start = p.getStartPosition();
+    		Position start = p.getPosition();
     		if (current.getX() != start.getX()|| current.getY() != start.getY()){
     			return false; 
     			
