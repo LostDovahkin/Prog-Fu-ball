@@ -1,6 +1,7 @@
 package src.Gamelogic;
 
 import java.util.Scanner;
+import src.TeamManagement.*;
 
 import src.TeamManagement.Player;
 import src.TeamManagement.Team;
@@ -13,9 +14,7 @@ public class ConsoleHandler {
     private Ball ball;
     private int maxRounds;
     private int currentRound;
-    
-
-
+   
     
     public ConsoleHandler(Team teamt1, Team teamt2, Ball ball, int maxRounds) {
     	this.teamt1 = teamt1; 
@@ -57,7 +56,7 @@ public class ConsoleHandler {
     }
 
     private void resetTeamPositions(Team team) {
-    	for (Player p : team.getPlayers()) {
+    	for (Player p : teamt1.getPlayers()) {
     		if(p != null) {
     			Position start = p.getStartPosition(); // Spieler auf die Startposition bewegen 
     			p.getPosition().bewegen(
@@ -190,6 +189,13 @@ public class ConsoleHandler {
     					
     				case 4: //Blocken
     					if (p.getRole().equals("Verteidiger")) {
+    						Team opponentteam = (team == team1) ? team2 : team1;
+    						Player blocked = isAdjacentOpponent(p, opponentTeam);
+    						if (blocked != null) {
+    							
+    							
+    							
+    						}
     						System.out.println(p.getName() + " möchte den Gegner blocken.");
     						//To-Do: Block-Logik einbauen 
     						valid = true; 
