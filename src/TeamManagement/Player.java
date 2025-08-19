@@ -82,4 +82,21 @@ public abstract class Player implements GameObject {
     public void setPosVertical(int posVertical) {
         this.posVertical = posVertical;
     }
+
+    public int getEnergy() {
+        return energy;
+    }
+
+    public void setEnergy(int energy) {
+        this.energy = Math.max(0, energy);
+    }
+
+    public boolean hasBall() {
+        return hasBall;
+    }
+
+    public void consumeEnergy(int amount) {
+        if (amount <= 0) return;
+        this.energy = Math.max(0, this.energy - amount);
+    }
 }
