@@ -2,6 +2,7 @@ package src.TeamManagement;
 
 import src.Gamelogic.Ball;
 import src.Gamelogic.GameObject;
+import src.Gamelogic.Position;
 
 public abstract class Player implements GameObject {
 
@@ -13,14 +14,16 @@ public abstract class Player implements GameObject {
     int posHorizontal;
     int posVertical;
     private boolean hasBall;
+	private Position startPos;
 
 
-    public Player(int id, int speed, double precision, int energy,char symbol) {
+    public Player(int id, int speed, double precision, int energy,char symbol, Position startPos) {
         this.id = id;
         this.speed = speed;
         this.precision = precision;
         this.energy = energy;
         this.symbol = symbol;
+        this.startPos = startPos; 
         Team.PlayerNumber++;
 
 

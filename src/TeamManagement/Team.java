@@ -2,6 +2,8 @@ package src.TeamManagement;
 
 import java.util.ArrayList;
 
+import src.Gamelogic.Position;
+
 public class Team {
 
     public static int PlayerNumber = 1;
@@ -19,12 +21,22 @@ public class Team {
 
     public Team(boolean leftSide) {
         this.leftSide = leftSide;
-        players = new ArrayList<>();
-        players.add(new Goalkeeper(PlayerNumber));
-        players.add(new Defense(PlayerNumber));
-        players.add(new Midfield(PlayerNumber));
-        players.add(new Midfield(PlayerNumber));
-        players.add(new Striker(PlayerNumber));
+        Player = new ArrayList<>();
+        
+        if (leftSide) {
+        	players.add(new Goalkeeper(PlayerNumber, new Position (0,4)));
+        	players.add(new Defense(PlayerNumber, new Position (1,2)));
+        	players.add(new Midfield(PlayerNumber, new Position (3,3)));
+        	players.add(new Midfield(PlayerNumber, new Position (3,5)));
+        	players.add(new Striker(PlayerNumber, new Position (5,4)));
+        }
+        else {
+        	players.add(new Goalkeeper(PlayerNumber, new Position (19,4)));
+        	players.add(new Defense(PlayerNumber, new Position (18,2)));
+        	players.add(new Midfield(PlayerNumber, new Position (16,3)));
+        	players.add(new Midfield(PlayerNumber, new Position (16,5)));
+        	players.add(new Striker(PlayerNumber, new Position (14,4)));
+        }
 
     }
 }
