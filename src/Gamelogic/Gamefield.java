@@ -58,11 +58,25 @@ public class Gamefield {
 
     }
 
+    private void resetAfterGoal(){
+        if (ball == null) return;
+
+        int v = ball.getPosVertical();
+        int h = ball.getPosHorizontal();
+        
+        if (v >= 0 && v < gamefieldArray.length && h >= 0 && h < gamefieldArray[0].length && gamefieldArray[v][h] == ball) {
+            gamefieldArray[v][h] = null;
+        }
+
+        ball.releaseHolder();
+    }
+
     private void postTurnStatus(Player movedPlayer){
         //Tor
         if (checkGoal(ball)) {
             Team scorer = goalEvent.get(goalEvent.size() - 1);
             System.out.println("TOR für Team " + (scorer == left ? "LINKS" : "RECHTS") + "! Neuer Spielstand: " + getScoreLeft() + " : " + getScoreRight());
+            resetAfterGoal();
         }
 
         String possession = "Keiner";
