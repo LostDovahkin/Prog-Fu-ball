@@ -1,16 +1,22 @@
 package src.Gamelogic;
 
+import java.util.ArrayList;
+import java.util.List;
 import src.TeamManagement.Player;
 import src.TeamManagement.Team;
 
 public class Gamefield {
-    private GameObject[][] gamefieldArray;
-    private Team left;
-    private Team right;
+    private final GameObject[][] gamefieldArray;
+    private final Team left;
+    private final Team right;
+
+    private Ball ball;
+    private final List<Team> goalEvent = new ArrayList<>();
 
     public Gamefield(Team left, Team right) {
-
-        gamefieldArray = new GameObject[9][20];
+        this.left = left;
+        this.right = right;
+        this.gamefieldArray = new GameObject[9][20];
     }
 
     protected boolean checkGoal(Ball b) {
