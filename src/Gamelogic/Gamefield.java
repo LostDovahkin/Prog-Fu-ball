@@ -115,6 +115,11 @@ public class Gamefield {
         }
 
         ball.releaseHolder();
+
+        int centerV = gamefieldArray.length / 2;
+        int centerH = gamefieldArray[0].length / 2;
+        addGameObject(ball, centerV, centerH);
+
     }
 
     private void postTurnStatus(Player movedPlayer){
