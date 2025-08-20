@@ -57,4 +57,45 @@ public class Gamefield {
       }
 
     }
+
+    private void postTurnStatus(Player movedPlayer){
+        //Tor
+        if (checkGoal(ball)) {
+            Team scorer = goalEvent.get(goalEvent.size() - 1);
+            System.out.println("TOR für Team " + (scorer == left ? "LINKS" : "RECHTS") + "! Neuer Spielstand: " + getScoreLeft() + " : " + getScoreRight());
+        }
+
+        String possession = "Keiner";
+            if (ball != null && ball.getHolder() != null) {
+            possession = "Spieler " + ball.getHolder();
+        }
+
+        //Ballbesitz
+        String energyInfo = (movedPlayer != null)
+            ? ("Energie von " + movedPlayer + ": " + movedPlayer.getEnergy())
+            : "Energie: n/a";
+
+        //Energie
+        System.out.println("Status ▸ Ballbesitz: " + possession
+            + " | " + energyInfo
+            + " | Spielstand: " + getScoreLeft() + " : " + getScoreRight());
+    }
+
+    public int getScoreLeft() {
+        return countGoalsRecursive(goalEvent, left, 0);
+    }
+
+    public int getScoreRight() {
+        return countGoalsRecursive(goalEvent, right, 0);
+    }
+
+    private int countGoalsRecursive(List<Team> events, Team team, int idx) {
+        if (idx >= events.size()) return 0;
+        int add = (events.get(idx) == team) ? 1 : 0;
+        return add + countGoalsRecursive(events, team, idx + 1);
+    }
+    
+    public void printScore() {
+        System.out.println("Spielstand: " + getScoreLeft() + " : " + getScoreRight());
+    }
 }
