@@ -79,13 +79,28 @@ public class Gamefield {
         int posHorizontal = object.getPosHorizontal();
         GameObject newPos = gamefieldArray[posVertical+vertical][posHorizontal+horizontal];
 
-      if (newPos == null || newPos instanceof Ball && object instanceof Player){
+        if (newPos == null) {
+            gamefieldArray[posVertical][posHorizontal] = null;
+            gamefieldArray[posVertical+vertical][posHorizontal+horizontal] = object;
+            object.setPosVertical(posVertical+vertical);
+            object.setPosHorizontal(posHorizontal+horizontal);
+        }
+        else if (newPos instanceof Ball && object instanceof Player) {
+            ((Ball) newPos).setHolder((Player) object);
+            gamefieldArray[posVertical][posHorizontal] = null;
+            gamefieldArray[posVertical+vertical][posHorizontal+horizontal] = object;
+            object.setPosVertical(posVertical+vertical);
+            object.setPosHorizontal(posHorizontal+horizontal);
+        }
+        postTurnStatus(object instanceof Player ? (Player) object : null);
+        /*
+        if (newPos == null || newPos instanceof Ball && object instanceof Player){
           if (object instanceof Player && newPos instanceof Ball){
               ((Ball) newPos).setHolder((Player) object);
               gamefieldArray[posVertical][posHorizontal] = null;
-
-          }
-      }
+            }
+        }
+        */
 
     }
 
