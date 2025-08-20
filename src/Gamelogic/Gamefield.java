@@ -13,12 +13,28 @@ public class Gamefield {
         gamefieldArray = new GameObject[9][20];
     }
 
-    protected boolean checkGoal(Ball ball) {
-        if (ball.posHorizontal == 0 && ball.posVertical > 2 && ball.posVertical < 6 ){
-            right.addScore();
-            return true;
+    protected boolean checkGoal(Ball b) {
+        if (b == null) { 
+        return false; 
+        }
+        
+        int v = ball.getPosVertical();
+        int h = ball.getPosHorizontal();
+        int lastCol = gamefieldArray[0].length - 1;
+
+        boolean inGate = (v > 2 && v < 6);
+        if(!inGate){
+            return false;
         }
 
+        if(h == 0){
+            goalEvent.add(right);
+            return true;
+        }
+        if(h == lastCol){
+            goalEvent.add(left);
+            return true;
+        }
         return false;
     }
 
