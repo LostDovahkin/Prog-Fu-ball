@@ -45,8 +45,17 @@ public class Gamefield {
     }
 
     public boolean addGameObject (GameObject object,int vertical, int horizontal){
+        if (vertical < 0 || vertical >= gamefieldArray.length || horizontal < 0 || horizontal >= gamefieldArray[0].length) {
+            return false;
+        }
         if(gamefieldArray[vertical][horizontal]==null){
             gamefieldArray[vertical][horizontal]=object;
+            object.setPosVertical(vertical);
+            object.setPosHorizontal(horizontal);
+            
+            if (object instanceof Ball) {
+            this.ball = (Ball) object;
+            }
             return true;
         }else{
             return false;
