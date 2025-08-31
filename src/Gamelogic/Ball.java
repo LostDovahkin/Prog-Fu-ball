@@ -39,7 +39,7 @@ public class Ball implements GameObject{
 
     public void releaseHolder() {
         if (holder != null) {
-            holder.setHasBall(false);
+            holder.setHasBall(null);
             holder = null;
         }
     }

@@ -2,6 +2,7 @@ package src.TeamManagement;
 
 import src.Gamelogic.Ball;
 import src.Gamelogic.GameObject;
+import src.Gamelogic.Gamefield;
 import src.Gamelogic.Position;
 
 public abstract class Player implements GameObject {
@@ -63,6 +64,9 @@ public abstract class Player implements GameObject {
         } else {
             energy = 100;
         }
+    }
+    public int getEnergy(){
+        return energy;
     }
 
     public void setHasBall(Ball BallObj) {

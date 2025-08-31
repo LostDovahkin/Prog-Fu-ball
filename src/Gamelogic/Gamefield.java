@@ -3,6 +3,9 @@ package src.Gamelogic;
 import src.TeamManagement.Player;
 import src.TeamManagement.Team;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Gamefield {
     private final GameObject[][] gamefieldArray;
     private final Team left;
@@ -22,13 +25,10 @@ public class Gamefield {
         return false;
         }
 
-        int v = ball.getPosVertical();
-        int h = ball.getPosHorizontal();
+        int v = ball.getPosition().getX();
+        int h = ball.getPosition().getY();
         int lastCol = gamefieldArray[0].length - 1;
 
-    protected boolean checkGoal(Ball ball) {
-        if (ball.position.getY() == 0 && ball.position.getX() > 2 && ball.position.getX() < 6 ){
-            right.addScore();
         boolean inGate = (v > 2 && v < 6);
         if(!inGate){
             return false;
@@ -98,16 +98,14 @@ public class Gamefield {
       }
         return false;
             }
-        }
-        */
 
-    }
+
 
     private void resetAfterGoal(){
         if (ball == null) return;
 
-        int v = ball.getPosVertical();
-        int h = ball.getPosHorizontal();
+        int v = ball.getPosition().getX();
+        int h = ball.getPosition().getY();
 
         if (v >= 0 && v < gamefieldArray.length && h >= 0 && h < gamefieldArray[0].length && gamefieldArray[v][h] == ball) {
             gamefieldArray[v][h] = null;
