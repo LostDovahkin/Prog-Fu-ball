@@ -32,4 +32,15 @@ public class Ball implements GameObject{
         this.holder = holder;
         holder.setHasBall(this);
     }
+
+    public Player getHolder() {
+        return holder;
+    }
+
+    public void releaseHolder() {
+        if (holder != null) {
+            holder.setHasBall(false);
+            holder = null;
+        }
+    }
 }
