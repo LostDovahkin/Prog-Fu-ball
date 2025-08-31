@@ -49,6 +49,9 @@ public abstract class Player implements GameObject {
         if (energy >= speed){
             if (gamefield.moveObject(this, horizontal, vertical)) {
                 energy -= speed;
+                if (this.ballObj != null){
+                    ballObj.setPosition(this.position.getX(), this.position.getY());
+                }
                 return true;
             }
             System.out.println("Ungültige Position");
