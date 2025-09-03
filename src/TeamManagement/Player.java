@@ -14,6 +14,7 @@ public abstract class Player implements GameObject {
     private char symbol;
     private Ball ballObj;
     private Position position;
+    private Position startPosition;
 
 
     public Player(int id, int speed, double precision, int energy, char symbol, Position startPos) {
@@ -22,12 +23,21 @@ public abstract class Player implements GameObject {
         this.precision = precision;
         this.energy = energy;
         this.symbol = symbol;
-        this.position = startPos;
+        this.startPosition = startPos;
+        this.position = startPosition;
         Team.PlayerNumber++;
 
 
     }
 
+    /**
+     * Checks if energy is sufficient. Invokes gamefield.moveObject with the params ballObj,horizontal,vertical.
+     * Prints "Nicht genügend Energie" if energy is to low.
+     * @param horizontal
+     * @param vertical
+     * @param gamefield
+     * @return true if shoot is successful | false if shoot is unsuccessful
+     */
     public boolean shoot(int horizontal, int vertical, Gamefield gamefield) {
         if (energy < 24) {
             if (gamefield.moveObject(ballObj, horizontal, vertical)) {
@@ -45,6 +55,13 @@ public abstract class Player implements GameObject {
         return "" + id;
     }
 
+    /**
+     * Checks if Player has enough energy. If energy is sufficient invokes the moveObject method with the horizontal and vertical param.
+     * @param horizontal
+     * @param vertical
+     * @param gamefield
+     * @return false if movement isn't possible | true if movement was successful.
+     */
     public boolean movePlayer(int horizontal, int vertical, Gamefield gamefield) {
         if (energy >= speed){
             if (gamefield.moveObject(this, horizontal, vertical)) {
@@ -61,6 +78,9 @@ public abstract class Player implements GameObject {
         return false;
     }
 
+    /**
+     * Refuels energy by 50 or sets it to 100 if it would be more than 100.
+     */
     public void rechargeEnergy() {
         if (energy + 50 <= 100) {
             energy += 50;
@@ -75,17 +95,18 @@ public abstract class Player implements GameObject {
     public void setHasBall(Ball BallObj) {
         this.ballObj = BallObj;
     }
-
+    //returns momentary position
     @Override
     public Position getPosition() {
         return position;
     }
 
-
+    //Important for player movement
     @Override
     public void setPosition(int x, int y) {
         position.setX(x);
         position.setY(y);
     }
+    public Position getStartPosition() {return startPosition;}
 
 }

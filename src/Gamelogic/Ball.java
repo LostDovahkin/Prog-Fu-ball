@@ -10,6 +10,13 @@ public class Ball implements GameObject{
 
     private char Symbol = 'O';
 
+    private Gamefield gamefield;
+
+    public Ball(Gamefield gamefield) {
+        this.gamefield = gamefield;
+        position = new Position(4,9);
+    }
+
 
     @Override
     public Position getPosition() {
@@ -22,6 +29,13 @@ public class Ball implements GameObject{
         position.setX(x);
         position.setY(y);
     }
+
+
+    @Override
+    public String toString() {
+        return "" + Symbol;
+    }
+
 
 
     /**
@@ -42,5 +56,13 @@ public class Ball implements GameObject{
             holder.setHasBall(null);
             holder = null;
         }
+    }
+
+    /**
+     * Resets the balls Position to the middle.
+     */
+    public void resetPosition() {
+        position.setX(4);
+        position.setY(9);
     }
 }

@@ -19,10 +19,21 @@ public class Team {
         score++;
     }
 
+    public String getName(){
+        if(leftSide){
+            return "Linkes Team";
+        }
+        else{return "Rechtes Team";}
+    }
+
+    /**
+     * Constructor for teams. Checks the attribute leftSide and intitializes player objects for each team and stores them in the players Array.
+     * @param leftSide true if team is on the left
+     */
     public Team(boolean leftSide) {
         this.leftSide = leftSide;
-        ArrayList<Player>players = new ArrayList<>();
-        
+         players = new ArrayList<>();
+
         if (leftSide) {
         	players.add(new Goalkeeper(PlayerNumber, new Position (0,4)));
         	players.add(new Defense(PlayerNumber, new Position (1,2)));
