@@ -3,16 +3,13 @@ package src.Gamelogic;
 import src.TeamManagement.Player;
 import src.TeamManagement.Team;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Gamefield {
     private final GameObject[][] gamefieldArray;
     private final Team left;
     private final Team right;
 
     private Ball ball;
-    private final List<Team> goalEvent = new ArrayList<>();
+    
 
     public Gamefield(Team left, Team right) {
         this.left = left;
@@ -25,30 +22,23 @@ public class Gamefield {
             return false;
         }
 
-        int v = ball.getPosition().getX();
-        int h = ball.getPosition().getY();
+        int v = b.getPosition().getX();
+        int h = b.getPosition().getY();
         int lastCol = gamefieldArray[0].length - 1;
 
         boolean inGate = (v > 2 && v < 6);
-        if (!inGate) {
-            return false;
-        }
+        if (!inGate) return false;
 
-        if (h == 0) {
-            goalEvent.add(right);
-            return true;
-        }
-        if (h == lastCol) {
-            goalEvent.add(left);
-            return true;
-        }
-
-        return false;
+        return (h == 0) || (h == lastCol);
     }
 
     public boolean addGameObject(GameObject object, int x, int y) {
         if (gamefieldArray[x][y] == null) {
             gamefieldArray[x][y] = object;
+            object.setPosition(x, y);
+            if(object instanceof Ball) {
+                this.ball = (Ball) object;
+            }
             return true;
         } else {
             return false;
@@ -91,74 +81,68 @@ public class Gamefield {
             gamefieldArray[posVertical][posHorizontal] = null;
             object.setPosition(posVertical + x, posHorizontal + y);
             gamefieldArray[object.getPosition().getX()][object.getPosition().getY()] = object;
+            
+            if(object instanceof Ball) {
+                this.ball = (Ball) object; // Referenz aktuell halten
+            }
+
+            if (checkGoal(this.ball)) {
+                Team scorer = detectScorer(this.ball);
+                if (scorer != null) {
+                    scorer.addScore();
+                    System.out.println("TOR für Team " + (scorer == left ? "LINKS" : "RECHTS")
+                        + "! Neuer Spielstand: " + left.getScore() + " : " + right.getScore());
+                }
+            }
+
+            postTurnStatus(object instanceof Player ? (Player) object : null);
             return true;
 
         } else if (newPos instanceof Player && object instanceof Ball) {
             object.setPosition(object.getPosition().getX() + x, object.getPosition().getY() + y);
             ((Player) newPos).setHasBall((Ball) object);
+            this.ball = (Ball) object;
+            
+            if (checkGoal(this.ball)) {
+                Team scorer = detectScorer(this.ball);
+                if (scorer != null) {
+                    scorer.addScore();
+                    System.out.println("TOR für Team " + (scorer == left ? "LINKS" : "RECHTS")
+                        + "! Neuer Spielstand: " + left.getScore() + " : " + right.getScore());
+                }
+            }
+
+            postTurnStatus(null);
             return true;
         }
         return false;
+            
     }
 
-
-    private void resetAfterGoal() {
-        if (ball == null) return;
-
-        int v = ball.getPosition().getX();
-        int h = ball.getPosition().getY();
-
-        if (v >= 0 && v < gamefieldArray.length && h >= 0 && h < gamefieldArray[0].length && gamefieldArray[v][h] == ball) {
-            gamefieldArray[v][h] = null;
-        }
-
-        ball.releaseHolder();
-
-        int centerV = gamefieldArray.length / 2;
-        int centerH = gamefieldArray[0].length / 2;
-        addGameObject(ball, centerV, centerH);
-
+    private Team detectScorer(Ball b) {
+        int h = b.getPosition().getY();
+        int lastCol = gamefieldArray[0].length - 1;
+        if (h == 0) return right;       // Ball über linke Linie → Punkt für rechts
+        if (h == lastCol) return left;  // Ball über rechte Linie → Punkt für links
+        return null;
     }
 
     private void postTurnStatus(Player movedPlayer) {
-        //Tor
-        if (checkGoal(ball)) {
-            Team scorer = goalEvent.get(goalEvent.size() - 1);
-            System.out.println("TOR für Team " + (scorer == left ? "LINKS" : "RECHTS") + "! Neuer Spielstand: " + getScoreLeft() + " : " + getScoreRight());
-            resetAfterGoal();
-        }
-
         String possession = "Keiner";
         if (ball != null && ball.getHolder() != null) {
             possession = "Spieler " + ball.getHolder();
         }
 
-        //Ballbesitz
         String energyInfo = (movedPlayer != null)
                 ? ("Energie von " + movedPlayer + ": " + movedPlayer.getEnergy())
                 : "Energie: n/a";
 
-        //Energie
         System.out.println("Status ▸ Ballbesitz: " + possession
                 + " | " + energyInfo
-                + " | Spielstand: " + getScoreLeft() + " : " + getScoreRight());
-    }
-
-    public int getScoreLeft() {
-        return countGoalsRecursive(goalEvent, left, 0);
-    }
-
-    public int getScoreRight() {
-        return countGoalsRecursive(goalEvent, right, 0);
-    }
-
-    private int countGoalsRecursive(List<Team> events, Team team, int idx) {
-        if (idx >= events.size()) return 0;
-        int add = (events.get(idx) == team) ? 1 : 0;
-        return add + countGoalsRecursive(events, team, idx + 1);
+                + " | Spielstand: " + left.getScore() + " : " + right.getScore());
     }
 
     public void printScore() {
-        System.out.println("Spielstand: " + getScoreLeft() + " : " + getScoreRight());
+        System.out.println("Spielstand: " + left.getScore() + " : " + right.getScore());
     }
 }
