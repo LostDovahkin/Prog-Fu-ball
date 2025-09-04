@@ -101,6 +101,7 @@ public class ConsoleHandler {
             getTeamMoves(teamt2);
             //updateGameState();
             //printGameStatus();
+            checkGoals();
 
 
             currentRound++;
@@ -223,5 +224,34 @@ public class ConsoleHandler {
 
     }
 
+    private void checkGoal () {
+    	Team scoringTeam = null; 
+    	
+    	if (teamScored(teamt1)) {
+    		scoringTeam = teamt1; 
+    	} else if (teamScored(teamt2)) {
+    		scoringTeam = teamt2; 
+    	}
+    	
+    	if (scoringTeam != null) {
+    		System.out.println("" + scoringTeam.getName());
+    		resetToStartPosition();
+    	}
+    }
+    
+    private void printWinner() {
+    	System.out.println("/n === Endergebnis ==="); 
+    	System.out.println(team1.getID() + ": " + scoreTeam1); 
+    	System.out.println(team2.getID() + ": " + scoreTeam2); 
+    	
+    	if(scoreTam1 > scoreTeams2) {
+    		System.out.println("Gewinner: " + team1.getID() + "!"); 
+    	} else if ((scoreTam2 > scoreTeams1) {
+    		System.out.println("Gewinner: " + team2.getID() + "!");
+    	} else {
+    		System.out.println("Es gibt ein Unentschieden!");
+    	}
+    	
+    }
 */
 }
