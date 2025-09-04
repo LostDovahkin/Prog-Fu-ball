@@ -43,19 +43,17 @@ public class Ball implements GameObject{
      * Sets a new Player to the Parameter holder and changes the Players hasBall Attribute to true.
      */
     public void setHolder(Player holder){
+        if (this.holder != null) {
+            this.holder.setHasBall(null);
+        }
         this.holder = holder;
-        holder.setHasBall(this);
+        if (this.holder != null) {
+        this.holder.setHasBall(this);
+        }
     }
 
     public Player getHolder() {
         return holder;
-    }
-
-    public void releaseHolder() {
-        if (holder != null) {
-            holder.setHasBall(null);
-            holder = null;
-        }
     }
 
     /**
