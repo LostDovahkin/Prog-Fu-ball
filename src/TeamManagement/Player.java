@@ -95,6 +95,11 @@ public abstract class Player implements GameObject {
     public void setHasBall(Ball BallObj) {
         this.ballObj = BallObj;
     }
+    
+    public boolean hasBall(){
+        return this.ballObj != null;
+    }
+
     //returns momentary position
     @Override
     public Position getPosition() {
