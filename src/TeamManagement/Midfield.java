@@ -1,7 +1,7 @@
-package src.TeamManagement;
+package TeamManagement;
 
-import src.Gamelogic.Gamefield; // Warum ist nur bei dieser Klasse an Spielern das Gamefield importiert
-import src.Gamelogic.Position;
+import Gamelogic.Gamefield; // Warum ist nur bei dieser Klasse an Spielern das Gamefield importiert
+import Gamelogic.Position;
 
 public class Midfield extends Player{
 

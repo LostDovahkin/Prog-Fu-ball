@@ -1,7 +1,7 @@
-package src.Gamelogic;
+package Gamelogic;
 
-import src.TeamManagement.Player;
-import src.TeamManagement.Team;
+import TeamManagement.Player;
+import TeamManagement.Team;
 
 public class Gamefield {
     private final GameObject[][] gamefieldArray;

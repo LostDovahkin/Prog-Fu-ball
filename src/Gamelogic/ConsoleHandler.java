@@ -1,11 +1,11 @@
-package src.Gamelogic;
+package Gamelogic;
 
 import java.util.Scanner;
 
-import src.TeamManagement.*;
+import TeamManagement.*;
 
-import src.TeamManagement.Player;
-import src.TeamManagement.Team;
+import TeamManagement.Player;
+import TeamManagement.Team;
 
 public class ConsoleHandler {
 /*

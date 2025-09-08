@@ -1,9 +1,9 @@
-package src.TeamManagement;
+package TeamManagement;
 
-import src.Gamelogic.Ball;
-import src.Gamelogic.GameObject;
-import src.Gamelogic.Gamefield;
-import src.Gamelogic.Position;
+import Gamelogic.Ball;
+import Gamelogic.GameObject;
+import Gamelogic.Gamefield;
+import Gamelogic.Position;
 
 public abstract class Player implements GameObject {
 

@@ -1,7 +1,7 @@
-package src.Gamelogic;
+package Gamelogic;
 
 
-import src.TeamManagement.*;
+import TeamManagement.*;
 
 public class Game {
     public static void main(String[] args) {

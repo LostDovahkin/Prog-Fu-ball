@@ -1,6 +1,6 @@
-package src.Gamelogic;
+package Gamelogic;
 
-import src.TeamManagement.Player;
+import TeamManagement.Player;
 
 public class Ball implements GameObject{
 

@@ -1,4 +1,4 @@
-package src.Gamelogic;
+package Gamelogic;
 
 public class Position {
 	private int x; 

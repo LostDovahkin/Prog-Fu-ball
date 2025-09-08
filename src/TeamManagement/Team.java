@@ -1,8 +1,8 @@
-package src.TeamManagement;
+package TeamManagement;
 
 import java.util.ArrayList;
 
-import src.Gamelogic.Position;
+import Gamelogic.Position;
 
 public class Team {
 

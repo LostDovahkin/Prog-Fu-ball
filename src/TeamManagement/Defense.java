@@ -1,7 +1,7 @@
-package src.TeamManagement;
+package TeamManagement;
 
-import src.Gamelogic.Gamefield;
-import src.Gamelogic.Position;
+import Gamelogic.Gamefield;
+import Gamelogic.Position;
 
 public class Defense extends Player {
 
