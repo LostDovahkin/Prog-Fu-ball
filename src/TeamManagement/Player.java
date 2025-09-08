@@ -114,4 +114,62 @@ public abstract class Player implements GameObject {
     }
     public Position getStartPosition() {return startPosition;}
 
+
+
+    /**
+     * Attempts to steal the ball from a neighboring player and assign it to the current player.
+     * <p>
+     * Conditions:
+     * <ul>
+     *   <li>The current player must have at least 20 energy points.</li>
+     *   <li>Checks the four adjacent positions (up, down, left, right) for a player who possesses the ball.</li>
+     *   <li>If such a player is found, the ball is removed from them and assigned to the current player.</li>
+     *   <li>The ball's position is updated to match the current player's position.</li>
+     *   <li>Upon successful ball transfer, 20 energy points are deducted from the current player.</li>
+     * </ul>
+     *
+     * @param gamefield The game field containing all game objects and their positions.
+     */
+
+    public void stealBallFromNeighbor(Gamefield gamefield) {
+        if (this.energy < 20) {
+            System.out.println("Nicht genug Energie zum Ball abnehmen.");
+            return;
+        }
+
+        int x = this.getPosition().getX();
+        int y = this.getPosition().getY();
+
+        // Directions: up, down, left, right
+        int[][] directions = {
+                {-1, 0}, // up
+                {1, 0},  // down
+                {0, -1}, // left
+                {0, 1}   // right
+        };
+
+        for (int[] dir : directions) {
+            int neighborX = x + dir[0];
+            int neighborY = y + dir[1];
+
+            GameObject obj = gamefield.getObjectAt(neighborX, neighborY);
+
+            if (obj instanceof Player) {
+                Player neighbor = (Player) obj;
+                if (neighbor.hasBall()) {
+                    Ball stolenBall = neighbor.ballObj;
+                    neighbor.setHasBall(null); // delete ball from neighbor
+                    this.setHasBall(stolenBall); // take ball
+                    stolenBall.setPosition(x, y); // update the balls position
+                    this.energy -= 20; // update energy
+                    System.out.println("Spieler " + this + " hat den Ball von Spieler " + neighbor + " übernommen. Energie: " + this.energy);
+                    return;
+                }
+            }
+        }
+
+        System.out.println("Kein benachbarter Spieler mit Ball gefunden.");
+    }
+
+
 }

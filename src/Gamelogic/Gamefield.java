@@ -15,6 +15,15 @@ public class Gamefield {
         this.gamefieldArray = new GameObject[9][20];
     }
 
+
+    public GameObject getObjectAt(int x, int y) {
+        if (x < 0 || x >= gamefieldArray.length || y < 0 || y >= gamefieldArray[0].length) {
+            return null;
+        }
+        return gamefieldArray[x][y];
+    }
+
+
     private boolean checkGoal(Ball b) {
         if (b == null) {
             return false;
