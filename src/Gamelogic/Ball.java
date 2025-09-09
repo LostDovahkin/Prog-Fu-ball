@@ -1,8 +1,9 @@
 package Gamelogic;
 
 import TeamManagement.Player;
+import java.io.Serializable;
 
-public class Ball implements GameObject{
+public class Ball implements GameObject, java.io.Serializable {
 
     Position position;
 

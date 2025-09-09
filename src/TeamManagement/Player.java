@@ -4,8 +4,9 @@ import Gamelogic.Ball;
 import Gamelogic.GameObject;
 import Gamelogic.Gamefield;
 import Gamelogic.Position;
+import java.io.Serializable;
 
-public abstract class Player implements GameObject {
+public abstract class Player implements GameObject, java.io.Serializable {
 
     private int id;
     private int speed;

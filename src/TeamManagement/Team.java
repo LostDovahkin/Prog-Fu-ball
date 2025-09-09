@@ -1,10 +1,10 @@
 package TeamManagement;
 
 import java.util.ArrayList;
-
+import java.io.Serializable;
 import Gamelogic.Position;
 
-public class Team {
+public class Team implements Serializable {
 
     public static int PlayerNumber = 1;
     private ArrayList<Player>players;

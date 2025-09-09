@@ -2,8 +2,9 @@ package Gamelogic;
 
 import TeamManagement.Player;
 import TeamManagement.Team;
+import java.io.Serializable;
 
-public class Gamefield {
+public class Gamefield implements Serializable{
     private final GameObject[][] gamefieldArray;
     private final Team left;
     private final Team right;

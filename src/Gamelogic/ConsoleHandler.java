@@ -12,8 +12,9 @@ public class ConsoleHandler {
     private int currentRound;
     private Scanner sc;
     private Gamefield gamefield;
+    private boolean isTeam1Turn;
 
-    public ConsoleHandler(Team t1, Team t2, Ball ball, int maxRounds) {
+    public ConsoleHandler(Team t1, Team t2, Ball ball, int maxRounds, int currentRound, boolean isTeam1Turn) {
         this.teamt1 = t1;
         this.teamt2 = t2;
         this.ball = ball;
@@ -160,6 +161,9 @@ public class ConsoleHandler {
                     System.out.println("Ungültige Auswahl.");
             }
         }
+        // Alles Speichern
+        SaveGame save = new SaveGame(teamt1, teamt2, ball, currentRound, maxRounds, isTeam1Turn);
+        SaveLoadUtil.saveGame(save, "savegame.dat");
     }
     private Team swapCurrentTeam(Team t) {
         return (t == teamt1) ? teamt2 : teamt1;
