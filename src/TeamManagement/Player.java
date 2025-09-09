@@ -9,9 +9,7 @@ public abstract class Player implements GameObject {
 
     private int id;
     private int speed;
-    private double precision;
     private int energy;
-    private char symbol;
     private Ball ballObj;
     private Position position;
     private Position startPosition;
@@ -20,11 +18,9 @@ public abstract class Player implements GameObject {
     public Player(int id, int speed, double precision, int energy, char symbol, Position startPos) {
         this.id = id;
         this.speed = speed;
-        this.precision = precision;
         this.energy = energy;
-        this.symbol = symbol;
-        this.startPosition = startPos;
-        this.position = startPosition;
+        this.startPosition = new Position(startPos.getX(), startPos.getY());
+        this.position = new Position(startPos.getX(), startPos.getY());
         Team.PlayerNumber++;
 
 
@@ -38,9 +34,22 @@ public abstract class Player implements GameObject {
      * @param gamefield
      * @return true if shoot is successful | false if shoot is unsuccessful
      */
-    public boolean shoot(int horizontal, int vertical, Gamefield gamefield) {
-        if (energy < 24) {
-            if (gamefield.moveObject(ballObj, horizontal, vertical)) {
+    public boolean shoot(int dx, int dy, Gamefield gamefield, Ball ball) {
+        int playerX = this.getPosition().getX();
+        int playerY = this.getPosition().getY();
+        int ballX = ball.getPosition().getX();
+        int ballY = ball.getPosition().getY();
+
+        int distX = Math.abs(playerX - ballX);
+        int distY = Math.abs(playerY - ballY);
+
+        if (!((distX <= 1) && (distY <= 1) && !(distX == 0 && distY == 0))) {
+            System.out.println("Du musst genau neben dem Ball stehen, um zu schießen!");
+            return false;
+        }
+
+        if (energy >= 24) {
+            if (gamefield.moveObject(ball, dx, dy)) {
                 energy -= 25;
                 return true;
             }
@@ -49,7 +58,6 @@ public abstract class Player implements GameObject {
         System.out.println("Nicht genügend Energie");
         return false;
     }
-
     @Override
     public String toString() {
         return "" + id;
@@ -71,11 +79,17 @@ public abstract class Player implements GameObject {
                 }
                 return true;
             }
-            System.out.println("Ungültige Position");
             return false;
         }
         System.out.println("Zu wenig Energie");
         return false;
+    }
+    public int getId() {
+        return this.id;
+    }
+    
+    public void loadEnergy() {
+        this.energy = Math.min(100, this.energy + 25);
     }
 
     /**

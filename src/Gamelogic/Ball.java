@@ -10,11 +10,9 @@ public class Ball implements GameObject{
 
     private char Symbol = 'O';
 
-    private Gamefield gamefield;
 
     public Ball(Gamefield gamefield) {
-        this.gamefield = gamefield;
-        position = new Position(4,9);
+        position = new Position(4,10);
     }
 
 
@@ -61,6 +59,6 @@ public class Ball implements GameObject{
      */
     public void resetPosition() {
         position.setX(4);
-        position.setY(9);
+        position.setY(10);
     }
 }

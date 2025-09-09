@@ -12,7 +12,7 @@ public class Gamefield {
     public Gamefield(Team left, Team right) {
         this.left = left;
         this.right = right;
-        this.gamefieldArray = new GameObject[9][20];
+        this.gamefieldArray = new GameObject[9][21];
     }
 
 
@@ -62,37 +62,43 @@ public class Gamefield {
         }
     }
 
-    public boolean moveObject(GameObject object, int x, int y) {
-        int posVertical = object.getPosition().getX();
-        int posHorizontal = object.getPosition().getY();
+    public boolean moveObject(GameObject object, int dx, int dy) {
+        int posX = object.getPosition().getX();
+        int posY = object.getPosition().getY();
 
-        if (posHorizontal + x < 0 || posHorizontal + x >= gamefieldArray.length) {
-            System.out.println("Ungültige Position");
+        int newX = posX + dx;
+        int newY = posY + dy;
+
+        // Grenzprüfung: X (Zeile), Y (Spalte)
+        if (newX < 0 || newX >= gamefieldArray.length) {
             return false;
         }
-        if (posVertical + y < 0 || posVertical + y >= gamefieldArray[0].length) {
-            System.out.println("Ungültige Position");
+        if (newY < 0 || newY >= gamefieldArray[0].length) {
             return false;
         }
 
-        GameObject newPos = gamefieldArray[posVertical + x][posHorizontal + y];
+        GameObject newPos = gamefieldArray[newX][newY];
 
-        if (newPos == null || newPos instanceof Ball && object instanceof Player) {
+        if (object instanceof Player && newPos instanceof Ball) {
+            // FEHLER: Spieler will auf das Feld des Balls gehen – das ist nicht erlaubt!
+            return false; // Bewegung wird nicht ausgeführt
+        }
+        
+        if (newPos == null || (newPos instanceof Ball && object instanceof Player)) {
             if (object instanceof Player && newPos != null) {
                 ((Ball) newPos).setHolder((Player) object);
             }
-            gamefieldArray[posVertical][posHorizontal] = null;
-            object.setPosition(posVertical + x, posHorizontal + y);
-            gamefieldArray[object.getPosition().getX()][object.getPosition().getY()] = object;
+            gamefieldArray[posX][posY] = null;
+            object.setPosition(newX, newY);
+            gamefieldArray[newX][newY] = object;
             return true;
 
         } else if (newPos instanceof Player && object instanceof Ball) {
-            object.setPosition(object.getPosition().getX() + x, object.getPosition().getY() + y);
+            object.setPosition(newX, newY);
             ((Player) newPos).setHasBall((Ball) object);
             return true;
         }
         return false;
-            
     }
 
     private Team detectScorer(Ball b) {
@@ -102,7 +108,34 @@ public class Gamefield {
         if (h == lastCol) return left;  // Ball über rechte Linie → Punkt für links
         return null;
     }
+    public void resetField(Ball ball) {
+        // 1. Alles löschen
+        for (int x = 0; x < gamefieldArray.length; x++) {
+            for (int y = 0; y < gamefieldArray[0].length; y++) {
+                gamefieldArray[x][y] = null;
+            }
+        }
 
+        // 2. Ball in die Mitte
+        ball.resetPosition();
+        addGameObject(ball, ball.getPosition().getX(), ball.getPosition().getY());
+
+        // 3. Beide Teams zurücksetzen
+        for (Player p : left.getPlayers()) {
+            if (p != null) {
+                Position start = p.getStartPosition(); // ← Muss die KONSTRUKTIONS-Startposition sein!
+                p.setPosition(start.getX(), start.getY());
+                addGameObject(p, start.getX(), start.getY());
+            }
+        }
+        for (Player p : right.getPlayers()) {
+            if (p != null) {
+                Position start = p.getStartPosition();
+                p.setPosition(start.getX(), start.getY());
+                addGameObject(p, start.getX(), start.getY());
+            }
+        }
+    }
     public void checkAndHandleGoal(Ball b){
         if (!checkGoal(b)) return;
 
@@ -112,7 +145,8 @@ public class Gamefield {
             System.out.println(
             "TOR für Team " + (scorer == left ? "LINKS" : "RECHTS")
             + "! Neuer Spielstand: " + left.getScore() + " : " + right.getScore()
-            );
+            ); 
+            resetField(b);
         }
     }
 
