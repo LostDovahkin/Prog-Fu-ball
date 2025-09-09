@@ -22,7 +22,15 @@ public class Ball implements GameObject, java.io.Serializable {
         return position;
     }
 
+    private Ball ballObj;
 
+    public void setHasBall(Ball ball) {
+        this.ballObj = ball;
+    }
+    public Ball getHasBall() {
+        return ballObj;
+    }
+    //Spieler hat den Ball
     @Override
     public void setPosition(int x, int y) {
         position.setX(x);

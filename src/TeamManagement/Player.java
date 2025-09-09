@@ -41,11 +41,8 @@ public abstract class Player implements GameObject, java.io.Serializable {
         int ballX = ball.getPosition().getX();
         int ballY = ball.getPosition().getY();
 
-        int distX = Math.abs(playerX - ballX);
-        int distY = Math.abs(playerY - ballY);
-
-        if (!((distX <= 1) && (distY <= 1) && !(distX == 0 && distY == 0))) {
-            System.out.println("Du musst genau neben dem Ball stehen, um zu schießen!");
+        if (!(playerX == ballX && playerY == ballY && ball.getHolder() == this)) {
+            System.out.println("Du kannst nur schießen, wenn du auf dem Ball stehst und ihn besitzt!");
             return false;
         }
 

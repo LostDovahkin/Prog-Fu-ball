@@ -16,7 +16,13 @@ public class Gamefield implements Serializable{
         this.gamefieldArray = new GameObject[9][21];
     }
 
+    public int getFieldWidth() {
+        return gamefieldArray.length;
+    }
 
+    public int getFieldHeight() {
+        return gamefieldArray[0].length;
+    }
     public GameObject getObjectAt(int x, int y) {
         if (x < 0 || x >= gamefieldArray.length || y < 0 || y >= gamefieldArray[0].length) {
             return null;
@@ -66,42 +72,55 @@ public class Gamefield implements Serializable{
     public boolean moveObject(GameObject object, int dx, int dy) {
         int posX = object.getPosition().getX();
         int posY = object.getPosition().getY();
-
         int newX = posX + dx;
         int newY = posY + dy;
 
         // Grenzprüfung: X (Zeile), Y (Spalte)
-        if (newX < 0 || newX >= gamefieldArray.length) {
-            return false;
-        }
-        if (newY < 0 || newY >= gamefieldArray[0].length) {
-            return false;
-        }
+        if (newX < 0 || newX >= gamefieldArray.length) return false;
+        if (newY < 0 || newY >= gamefieldArray[0].length) return false;
 
         GameObject newPos = gamefieldArray[newX][newY];
 
-        if (object instanceof Player && newPos instanceof Ball) {
-            // FEHLER: Spieler will auf das Feld des Balls gehen – das ist nicht erlaubt!
-            return false; // Bewegung wird nicht ausgeführt
-        }
-        
-        if (newPos == null || (newPos instanceof Ball && object instanceof Player)) {
-            if (object instanceof Player && newPos != null) {
-                ((Ball) newPos).setHolder((Player) object);
+        // === Spieler bewegt sich ===
+        if (object instanceof Player) {
+            // Spieler läuft auf Ballfeld: Ball übernehmen
+            if (newPos instanceof Ball) {
+                Ball foundBall = (Ball) newPos;
+                foundBall.setHolder((Player) object);
+                gamefieldArray[posX][posY] = null;
+                object.setPosition(newX, newY);
+                gamefieldArray[newX][newY] = object;
+                return true;
             }
-            gamefieldArray[posX][posY] = null;
-            object.setPosition(newX, newY);
-            gamefieldArray[newX][newY] = object;
-            return true;
-
-        } else if (newPos instanceof Player && object instanceof Ball) {
-            object.setPosition(newX, newY);
-            ((Player) newPos).setHasBall((Ball) object);
-            return true;
+            // Normale Bewegung auf freies Feld
+            if (newPos == null) {
+                gamefieldArray[posX][posY] = null;
+                object.setPosition(newX, newY);
+                gamefieldArray[newX][newY] = object;
+                return true;
+            }
         }
+
+        // === Ball bewegt sich (z.B. Schuss) ===
+        if (object instanceof Ball) {
+            // Ball schießt auf Spieler: Spieler bekommt Ballbesitz, Spieler bleibt im Array!
+            if (newPos instanceof Player) {
+                object.setPosition(newX, newY);
+                ((Player) newPos).setHasBall((Ball) object);
+                // Spielfeldarray NICHT überschreiben, Spieler bleibt am Feld!
+                return true;
+            }
+            // Ball schießt auf leeres Feld: NUR Ball bewegen!
+            if (newPos == null) {
+                gamefieldArray[posX][posY] = null;
+                object.setPosition(newX, newY);
+                gamefieldArray[newX][newY] = object;
+                return true;
+            }
+        }
+
         return false;
     }
-
     private Team detectScorer(Ball b) {
         int h = b.getPosition().getY();
         int lastCol = gamefieldArray[0].length - 1;

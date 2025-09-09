@@ -123,27 +123,44 @@ public class ConsoleHandler {
                     actionDone = true;
                     break;
                 case 2:
-                    // Vor dem Schuss prüfen: Steht Spieler wirklich neben Ball?
                     int playerX = player.getPosition().getX();
                     int playerY = player.getPosition().getY();
                     int ballX = ball.getPosition().getX();
                     int ballY = ball.getPosition().getY();
-                    int distX = Math.abs(playerX - ballX);
-                    int distY = Math.abs(playerY - ballY);
 
-                    if (!((distX <= 1) && (distY <= 1) && !(distX == 0 && distY == 0))) {
-                        System.out.println("Du musst genau neben dem Ball stehen, um zu schießen!");
-                        // Startet wieder oben mit Aktionsauswahl!
+                    if (!(playerX == ballX && playerY == ballY && ball.getHolder() == player)) {
+                        System.out.println("Du kannst nur schießen, wenn du auf dem Ball stehst und ihn besitzt!");
                         break;
                     }
+
                     try {
                         System.out.print("Schuss-Richtung dx (+unten/-oben): ");
                         int hdx = Integer.parseInt(sc.next());
                         System.out.print("Schuss-Richtung dy (+rechts/-links): ");
                         int hdy = Integer.parseInt(sc.next());
-                        boolean shot = player.shoot(hdx, hdy, gamefield, ball);
-                        if (shot) {
-                            actionDone = true; // NUR bei echtem Schuss weiter!
+
+                        int newX = ball.getPosition().getX() + hdx;
+                        int newY = ball.getPosition().getY() + hdy;
+
+                        if (newX < 0 || newX >= gamefield.getFieldWidth() || newY < 0 || newY >= gamefield.getFieldHeight()) {
+                            System.out.println("Schuss fehlgeschlagen: Ziel liegt außerhalb des Spielfelds!");
+                            break;
+                        }
+
+                        boolean moved1;
+                        moved1 = gamefield.moveObject(ball, hdx, hdy);
+
+                        GameObject ziel = gamefield.getObjectAt(newX, newY);
+                        if (ziel instanceof Player) {
+                            ball.setHolder((Player) ziel);
+                            System.out.println("Nach dem Schuss besitzt Spieler " + ((Player) ziel).getId() + " den Ball.");
+                        } else {
+                            ball.setHolder(null);
+                            System.out.println("Der Ball ist jetzt frei auf dem Spielfeld.");
+                        }
+
+                        if (moved1) {
+                            actionDone = true;
                         } else {
                             System.out.println("Schuss fehlgeschlagen oder ungültig!");
                         }
