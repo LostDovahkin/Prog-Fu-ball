@@ -19,7 +19,7 @@ public class ConsoleHandler {
         this.teamt2 = t2;
         this.ball = ball;
         this.maxRounds = maxRounds;
-        this.currentRound = 0;
+        this.currentRound = currentRound;
         this.sc = new Scanner(System.in);
         this.gamefield = new Gamefield(t1, t2);
 
@@ -37,7 +37,6 @@ public class ConsoleHandler {
         boolean playAgain = true;
 
         while (playAgain) {
-            currentRound = 0;
             Team currentTeam = teamt1;
 
             gamefield.printField();
@@ -85,14 +84,14 @@ public class ConsoleHandler {
     private void playerAction(Player player) {
         boolean actionDone = false;
         while (!actionDone) {
-            System.out.println("Welche Aktion? (1=Laufen, 2=Schießen, 3=Energie aufladen)");
+        	System.out.println("Welche Aktion? (1=Laufen, 2=Schießen, 3=Energie aufladen, 4=Ball stehlen)");
             int choice = -1;
 
             // Eingabe-Check für choice – wiederholt bis gültig
-            while (choice < 1 || choice > 3) {
+            while (choice < 1 || choice > 4) {
                 try {
                     choice = Integer.parseInt(sc.next());
-                    if (choice < 1 || choice > 3) {
+                    if (choice < 1 || choice > 4) {
                         System.out.println("Keine gültige Eingabe, bitte versuchen Sie es erneut.");
                     }
                 } catch (Exception e) {
@@ -176,10 +175,23 @@ public class ConsoleHandler {
                     break;
                 default:
                     System.out.println("Ungültige Auswahl.");
+                case 4:
+                    player.stealBallFromNeighbor(gamefield);
+                    actionDone = true; // Nur setzen, wenn du willst, dass das Stehlen einen Zug kostet!
+                    break;
             }
         }
         // Alles Speichern
         SaveGame save = new SaveGame(teamt1, teamt2, ball, currentRound, maxRounds, isTeam1Turn);
+        if (ball.getHolder() != null) {
+            ball.getHolder().setHasBall(ball);
+        }
+        for (Player p : teamt1.getPlayers()) {
+            if (p != ball.getHolder()) p.setHasBall(null);
+        }
+        for (Player p : teamt2.getPlayers()) {
+            if (p != ball.getHolder()) p.setHasBall(null);
+        }
         SaveLoadUtil.saveGame(save, "savegame.dat");
     }
     private Team swapCurrentTeam(Team t) {

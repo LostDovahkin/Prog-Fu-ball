@@ -27,6 +27,16 @@ public class Game {
                 int maxRounds = save.maxRounds;
                 boolean isTeam1Turn = save.isTeam1Turn;
 
+                if (ball.getHolder() != null) {
+                    ball.getHolder().setHasBall(ball);
+                }
+                for (Player p : t1.getPlayers()) {
+                    if (p != ball.getHolder()) p.setHasBall(null);
+                }
+                for (Player p : t2.getPlayers()) {
+                    if (p != ball.getHolder()) p.setHasBall(null);
+                }
+                
                 ConsoleHandler handler = new ConsoleHandler(t1, t2, ball, maxRounds, currentRound, isTeam1Turn);
                 handler.startGame();
                 return;

@@ -143,12 +143,39 @@ public abstract class Player implements GameObject, java.io.Serializable {
      * @param gamefield The game field containing all game objects and their positions.
      */
 
+    
+    public Ball getHasBall() { return this.ballObj; }
+    
     public void stealBallFromNeighbor(Gamefield gamefield) {
         if (this.energy < 20) {
             System.out.println("Nicht genug Energie zum Ball abnehmen.");
             return;
         }
 
+        int a = this.getPosition().getX();
+        int b = this.getPosition().getY();
+
+        int[][] checks = { {1,0}, {-1,0}, {0,1}, {0,-1} }; // oben, unten, rechts, links
+
+        for (int[] d : checks) {
+            int nx = a + d[0];
+            int ny = b + d[1];
+            GameObject obj = gamefield.getObjectAt(nx, ny);
+            if (obj instanceof Player playerNachbar) {
+                if (playerNachbar.getHasBall() != null) {
+                    Ball ball = playerNachbar.getHasBall();
+                    playerNachbar.setHasBall(null);      // Ball vom Nachbarn entfernen
+                    ball.setHolder(this);                // Wichtig: Ball erhält neuen Besitzer
+                    ball.setPosition(a, b);              // Ball auf den neuen Spieler setzen
+                    this.setHasBall(ball);               // Diesem Spieler jetzt Ball geben
+                    this.energy -= 20;
+                    System.out.println("Spieler " + this.getId() + " hat den Ball von Spieler " + playerNachbar.getId() + " übernommen. Energie: " + this.energy);
+                    return;
+                }
+            }
+    }
+        System.out.println("Kein benachbarter Spieler mit Ball gefunden.");
+        
         int x = this.getPosition().getX();
         int y = this.getPosition().getY();
 

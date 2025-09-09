@@ -47,12 +47,8 @@ public class Gamefield implements Serializable{
     }
 
     public boolean addGameObject(GameObject object, int x, int y) {
-        if (gamefieldArray[x][y] == null) {
             gamefieldArray[x][y] = object;
             return true;
-        } else {
-            return false;
-        }
     }
 
     public void printField() {
@@ -103,16 +99,25 @@ public class Gamefield implements Serializable{
 
         // === Ball bewegt sich (z.B. Schuss) ===
         if (object instanceof Ball) {
-            // Ball schießt auf Spieler: Spieler bekommt Ballbesitz, Spieler bleibt im Array!
+            // Ball schießt auf Spieler: Spieler bekommt Ballbesitz, Spieler bleibt am Feld!
             if (newPos instanceof Player) {
                 object.setPosition(newX, newY);
                 ((Player) newPos).setHasBall((Ball) object);
-                // Spielfeldarray NICHT überschreiben, Spieler bleibt am Feld!
+                // NICHT gamefieldArray[newX][newY] = object;
                 return true;
             }
-            // Ball schießt auf leeres Feld: NUR Ball bewegen!
+            // Ball schießt auf leeres Feld: Ball bewegen, Spieler bleibt falls vorhanden!
             if (newPos == null) {
+                // Altes Feld leeren, ABER falls dort noch ein Spieler steht, wieder einsetzen:
                 gamefieldArray[posX][posY] = null;
+                // Spieler auf altem Feld behalten
+                for (Team team : new Team[] {left, right}) {
+                    for (Player p : team.getPlayers()) {
+                        if (p.getPosition().getX() == posX && p.getPosition().getY() == posY) {
+                            gamefieldArray[posX][posY] = p;
+                        }
+                    }
+                }
                 object.setPosition(newX, newY);
                 gamefieldArray[newX][newY] = object;
                 return true;
